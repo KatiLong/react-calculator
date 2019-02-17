@@ -14,10 +14,9 @@ class App extends Component {
   }
   number (num) {
     console.log('number pressed', num)
-    // currentNum = num;
-    // // if total is zero, replace with pressed number
-    // if (this.state.total == 0) return { total: num }
-    // else return { total: `${this.state.total}${num}`}
+    // if total is zero, replace with pressed number
+    if (this.state.total == 0) return { total: num }
+    else return { total: `${this.state.total}${num}`}
   }
   clear () {
     console.log('clear pressed');
@@ -31,39 +30,43 @@ class App extends Component {
   handleClick (e) {
     e.preventDefault();
 
-    let currentTotal = this.state.total;
+    let newTotal = {total: this.state.total};
     let currentNum = this.state.current.number;
-    // console.log(currentTotal, this.state.total, currentNum);
+    let currentOperator = this.state.current.operator;
+    console.log(newTotal, this.state.total, currentNum);
 
     switch (e.target.className) {
       case 'number' :
         if (e.target.id === 'zero') {
           console.log('if Zero');
           currentNum = 0
-          currentTotal = this.number(0);
+          newTotal = this.number(0);
         }
         else {
           console.log('if other number');
           currentNum = e.target.id;
-          currentTotal = this.number(e.target.id);
+          newTotal = this.number(e.target.id);
         }
         break;
       case 'special' :
         // console.log('special character pressed', e.target.id);
         if (e.target.id === 'C') {
-          currentTotal = this.clear();
+          newTotal = this.clear();
         } else if (e.target.id === '.'){
-          currentTotal = this.decimal();
+          newTotal = this.decimal();
         } else console.log('Did not match special character');
         break;
       case 'operator' :
         // console.log('operator pressed', e.target.id);
-        currentTotal = this.operation(e.target.id);
+        newTotal = this.operation(e.target.id);
         break;  
       default :
         console.log('End of switch statement?');
     }
-    console.log(currentTotal, this.state.total, currentNum);
+    console.log(newTotal, this.state.total, currentNum);
+    this.setState({current: {...this.state.current, operator: currentOperator, number: currentNum}}, () => this.setState(newTotal))
+
+
   }
   render() {
     // .map((str, ind) => <li key={ind}>{str}</li>);
