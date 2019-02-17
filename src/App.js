@@ -15,14 +15,16 @@ class App extends Component {
   number (num) {
     console.log('number pressed', num)
     // if total is zero, replace with pressed number
-    if (this.state.total == 0) return { total: num }
+    if (this.state.total === 0) return { total: num }
     else return { total: `${this.state.total}${num}`}
   }
   clear () {
     console.log('clear pressed');
+    return { total: 0 }
   }
   decimal () {
     console.log('decimal pressed');
+    return { total: `${this.state.total}.`}
   }
   operation (operator) {
     console.log('operator pressed', operator);
@@ -51,6 +53,8 @@ class App extends Component {
       case 'special' :
         // console.log('special character pressed', e.target.id);
         if (e.target.id === 'C') {
+          currentNum = -1;
+          currentOperator = '';
           newTotal = this.clear();
         } else if (e.target.id === '.'){
           newTotal = this.decimal();
