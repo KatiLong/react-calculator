@@ -26,8 +26,24 @@ class App extends Component {
     console.log('decimal pressed');
     return { total: `${this.state.total}.`}
   }
-  operation (operator) {
+  calculate (operator) {
     console.log('operator pressed', operator);
+    switch (operator) {
+      case '/' :
+        console.log('division');
+        break;
+      case 'x' :
+        console.log('multiplication');
+        break;
+      case '-' :
+        console.log('subtraction');
+        break;
+      case '+' :
+        console.log('addition');
+        break;
+      default : 
+        console.log('no valid operator');
+    }
   }
   handleClick (e) {
     e.preventDefault();
@@ -41,12 +57,12 @@ class App extends Component {
       case 'number' :
         if (e.target.id === 'zero') {
           console.log('if Zero');
-          currentNum = 0
+          currentNum = 0;
           newTotal = this.number(0);
         }
         else {
           console.log('if other number');
-          currentNum = e.target.id;
+          (currentNum === -1) ? currentNum = e.target.id : currentNum += e.target.id;
           newTotal = this.number(e.target.id);
         }
         break;
@@ -57,19 +73,24 @@ class App extends Component {
           currentOperator = '';
           newTotal = this.clear();
         } else if (e.target.id === '.'){
+          (currentNum === -1) ? currentNum = e.target.id : currentNum += e.target.id;
           newTotal = this.decimal();
         } else console.log('Did not match special character');
         break;
       case 'operator' :
-        // console.log('operator pressed', e.target.id);
-        newTotal = this.operation(e.target.id);
+        // NewTotal should only be updated in here, when operator pressed (total val assigned to currentNum & currentNum reset)
+        // if operator is pressed AND no current operation set, set currentOperator to button pressed
+        if (currentOperator !== '') newTotal = currentNum;
+        else newTotal = { total: 0 }
+        currentNum = -1;
+        (e.target.id === "=") ? currentOperator = '' : currentOperator = e.target.id;
         break;  
       default :
         console.log('End of switch statement?');
     }
-    console.log(newTotal, this.state.total, currentNum);
-    this.setState({current: {...this.state.current, operator: currentOperator, number: currentNum}}, () => this.setState(newTotal))
-
+    
+    this.setState({current: {...this.state.current, operator: currentOperator, number: currentNum}}, () => {this.setState(newTotal)});
+    // console.log(newTotal, this.state.total, currentNum);
 
   }
   render() {
@@ -82,7 +103,7 @@ class App extends Component {
     });
     return (
       <div className="App">
-        <Total total={this.state.total}/>
+        <Total total={this.state.total} currentNum={this.state.current.number}/>
         {calcButtons}
       </div>
     );
