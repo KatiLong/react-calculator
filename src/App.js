@@ -9,8 +9,7 @@ class App extends Component {
       operator: '',
       number: -1
     },
-    total: 0,
-    buttons: ['C', '/', 7, 8, 9, 'x', 4, 5, 6, '-', 1, 2, 3, '+', 0, '.', '='],  
+    total: 0,  
   }
   number (num) {
     console.log('number pressed', num)
@@ -105,7 +104,8 @@ class App extends Component {
   }
   render() {
     // .map((str, ind) => <li key={ind}>{str}</li>);
-    const calcButtons = this.state.buttons.map((el, ind) => {
+    const buttons = ['C', '/', 7, 8, 9, 'x', 4, 5, 6, '-', 1, 2, 3, '+', 0, '.', '='];
+    const calcButtons = buttons.map((el, ind) => {
       if (el === 0) return <Button id="zero" className="number" key={ind} symbol={el} handleClick={e => this.handleClick(e)} />
       else if (typeof(el) === "number")  return <Button id={el} className="number" key={ind} symbol={el} handleClick={e => this.handleClick(e)} />
       else if (el === 'C' || el === '.') return <Button id={el} className="special" key={ind} symbol={el} handleClick={e => this.handleClick(e)} />
@@ -149,78 +149,3 @@ class App extends Component {
 //   ];
 
 export default App;
-
-//   return (
-//     <div className={className.join(" ").trim()}>
-//       <button onClick={this.handleClick}>{this.props.name}</button>
-//     </div>
-//   );
-
-// let newTotal = {total: this.state.total};
-// let newOperator = this.state.current.operator;
-// let newNumber = this.state.current.number;
-// e.preventDefault();
-
-// this.setState( (state, props) => {
-//   // console.log('Handle Click', e.target.className, newTotal);
-//   console.log(newTotal, newOperator, newNumber, e.target);
-//   // Clear
-//   if (e.target.id === 'C') newTotal = this.clear();
-//   // // decimal
-//   // else if (e.target.id === '.') newTotal = state.clickFunctions.decimal();
-//   // // number
-//   else if (e.target.className === "number") {
-//     newNumber = e.target.id;
-//     newTotal = state.clickFunctions.number(e.target.id);
-//   }
-//   // //operator
-//   // else if (e.target.className === "operator") {
-//   //   // where to set current operator???
-//   //   if (state.currentOperator !== '') newOperator = e.target.id;
-//   //   else {
-//   //     newTotal = this.state.clickFunctions.operator(newOperator);
-//   //     newOperator = e.target.id;
-//   //   }
-//   // }
-//   return { current: {...state.current, operator: newOperator, number: newNumber} }
-// }, () => { this.setState(newTotal) })
-
-  // const clickFunctions = {
-  //   clear: () => ({ total: 0 }),
-  //   number: (num) => {
-  //     if (this.state.total === 0) return {total: num}
-  //     if (num === 'zero') return { total: `${this.state.total}0` }
-  //     else return { total: `${this.state.total}${num}` }
-  //   },
-  //   decimal: () => ({ total: `${this.state.total}.`}),
-  //   operator: (type) => { 
-  //     switch (type) {
-  //       case '/' :
-  //         console.log('divide');
-  //         break;
-  //       case 'x' :
-  //         console.log('multiply');
-  //         break;
-  //       case '-' :
-  //         console.log('subtract');
-  //         break;
-  //       case '+' :
-  //         console.log('add');
-  //         break;
-  //       default: 
-  //         return { total: this.state.total}
-  //     }
-  //     // add: () => ({total: parseFloat(this.state.total) + parseFloat(num)})
-  //   }
-  // }
-  // clear () { return {total: 0} }
-  // number (num) {
-  //   console.log('number');
-  //   if (this.state.total === 0) return {total: num}
-  //   if (num === 'zero') return { total: `${this.state.total}0` }
-  //   else return { total: `${this.state.total}${num}` }
-  // }
-  // decimal () { return { total: `${this.state.total}.`} }
-  // operator (type) {
-  //   return { total: this.state.total}
-  // }
